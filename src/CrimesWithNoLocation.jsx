@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 const API_url = import.meta.env.VITE_APP_URL;
 import Button from './FormComponents/Button';
+import Form from './FormComponents/Form';
+import Input from './FormComponents/Input';
 
 
 const CrimesWithNoLocation = ({ forceId }) => {
@@ -92,21 +94,11 @@ const CrimesWithNoLocation = ({ forceId }) => {
 
 
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: 0 auto;
-  gap: 10px;
-`;
 
 const Label = styled.label`
   font-weight: bold;
 `;
 
-const Input = styled.input`
-  padding: 5px;
-`;
 
 const Select = styled.select`
   padding: 5px;
