@@ -1,4 +1,9 @@
 module.exports = {
+    "settings": {
+        "react": {
+          "version": "detect", // Automatically detect the react version
+        },
+      },
     "env": {
         "browser": true,
         "es2021": true,
@@ -29,5 +34,6 @@ module.exports = {
         "react"
     ],
     "rules": {
-    }
+    },
+    "ignorePatterns": ["dist/"],
 }
