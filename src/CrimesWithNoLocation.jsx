@@ -71,9 +71,8 @@ const CrimesWithNoLocation = ({ forceId }) => {
           ))}
         </Select>
         <Button text="Fetch Crimes"
-          backgroundColor="#FF6347"
           color="#FFF"
-          hoverBackgroundColor="#FF4500" type="submit">Fetch Crimes</Button>
+          type="submit">Fetch Crimes</Button>
       </Form>
       {crimes && (
         <ul>

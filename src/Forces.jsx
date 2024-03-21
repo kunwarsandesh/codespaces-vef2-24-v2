@@ -17,8 +17,11 @@ const Forces = () => {
     }, []);
 
     useEffect(() => {
-        setFilteredForces(forces.filter(force => force.name.toLowerCase().includes(searchQuery.toLowerCase())));
+        const newFilteredForces = forces.filter(force => force.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        setFilteredForces(newFilteredForces);
+        setCurrentPage(1);
     }, [searchQuery, forces]);
+
 
     const getForces = async () => {
         const response = await fetch(`${url}/forces`);
@@ -55,10 +58,8 @@ const Forces = () => {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
             />
-            <Button   text="Toggle Sort Order ↕️"
-  backgroundColor="#FF6347"
-  color="#FFF"
-  hoverBackgroundColor="#FF4500" onClick={toggleSortOrder}>Toggle Sort Order</Button>
+            <Button text="Toggle Sort Order ↕️"
+                color="#FFF" onClick={toggleSortOrder}>Toggle Sort Order</Button>
             {currentForces.map(force => (
                 <ForceItem key={force.id}>
                     <StyledLink to={`/forces/${force.id}`} state={{ force }}>
