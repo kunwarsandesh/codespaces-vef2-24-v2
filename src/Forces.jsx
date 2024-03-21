@@ -1,58 +1,43 @@
-
-import React, { createRef } from 'react'
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 const url = import.meta.env.VITE_APP_URL;
 
-
-
-
-//This is .jsx file for forces 
-//API call get requests using fetch, async,await 
-
 const Forces = () => {
-    console.log('Forces');
+    const [forces, setForces] = useState([]);
 
-    const [forces, setForces] = React.useState();
-   //try catch block for error handling
-    React.useEffect(() => {
-        try {
-            getForces();
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    , []);
-    
-    //fetching data from API
+    useEffect(() => {
+        getForces().catch(console.error);
+    }, []);
+
     const getForces = async () => {
         const response = await fetch(`${url}/forces`);
         const data = await response.json();
         setForces(data);
-        console.log(data);
-    }
+    };
 
     return (
         <ForceWrapper>
             <h1>Forces</h1>
-            {forces && forces.map(force => (
+            {forces.map(force => (
                 <div key={force.id}>
-                    <h2>{force.name}</h2>
+                    <h2>
+                        {/* Use Link to pass force data to InfoOnForce component */}
+                        <Link to={`/forces/${force.id}`} state={{ force }}>
+                            {force.name}
+                        </Link>
+                    </h2>
                 </div>
             ))}
         </ForceWrapper>
-    )
-}
+    );
+};
 
 export default Forces;
 
 const ForceWrapper = styled.div`
-
     h1 {
         color: #333;
     }
-
-    h2 {
-        color: #666;
-    }
 `;
-    
