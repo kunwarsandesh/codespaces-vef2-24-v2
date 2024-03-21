@@ -6,7 +6,7 @@ const API_url = import.meta.env.VITE_APP_URL;
 const Neighborhoods = ({ forceName, forceId }) => {
     const [neighborhoods, setNeighborhoods] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10); // Adjust the number of items per page as needed
+    const [itemsPerPage] = useState(10);
 
     useEffect(() => {
         const getData = async () => {
@@ -36,7 +36,11 @@ const Neighborhoods = ({ forceName, forceId }) => {
         let pages = [];
         for (let i = 1; i <= totalPageNumbers; i++) {
             pages.push(
-                <PageNumber key={i} onClick={() => setCurrentPage(i)} isActive={currentPage === i}>
+                <PageNumber
+                    key={i}
+                    onClick={() => setCurrentPage(i)}
+                    isActive={currentPage === i}
+                >
                     {i}
                 </PageNumber>
             );
@@ -45,7 +49,7 @@ const Neighborhoods = ({ forceName, forceId }) => {
     };
 
     return (
-        <NeighborhoodsContainer>
+        <NeighborhoodsContainer key={currentPage}>
             <h1>{forceName} looks after these listed Neighbourhoods.</h1>
             <NeighborhoodsList>
                 {currentNeighborhoods.map((neighborhood, index) => (
@@ -55,39 +59,38 @@ const Neighborhoods = ({ forceName, forceId }) => {
                     </NeighborhoodItem>
                 ))}
             </NeighborhoodsList>
-            <Pagination>
-                {currentPage > 1 && (
-                    <PaginationButton onClick={() => setCurrentPage(1)}>
-                        First
-                    </PaginationButton>
-                )}
-                {currentPage > 1 && (
-                    <PaginationButton onClick={() => setCurrentPage(currentPage - 1)}>
-                        Prev
-                    </PaginationButton>
-                )}
+            {totalPageNumbers > 1 && (
+                <Pagination>
+                    {currentPage > 1 && (
+                        <PaginationButton onClick={() => setCurrentPage(1)}>
+                            First
+                        </PaginationButton>
+                    )}
+                    {currentPage > 1 && (
+                        <PaginationButton onClick={() => setCurrentPage(currentPage - 1)}>
+                            Prev
+                        </PaginationButton>
+                    )}
 
-                {renderPageNumbers()}
+                    {renderPageNumbers()}
 
-                {currentPage < totalPageNumbers && (
-                    <PaginationButton onClick={() => setCurrentPage(currentPage + 1)}>
-                        Next
-                    </PaginationButton>
-                )}
-                {currentPage < totalPageNumbers && (
-                    <PaginationButton onClick={() => setCurrentPage(totalPageNumbers)}>
-                        Last
-                    </PaginationButton>
-                )}
-            </Pagination>
+                    {currentPage < totalPageNumbers && (
+                        <PaginationButton onClick={() => setCurrentPage(currentPage + 1)}>
+                            Next
+                        </PaginationButton>
+                    )}
+                    {currentPage < totalPageNumbers && (
+                        <PaginationButton onClick={() => setCurrentPage(totalPageNumbers)}>
+                            Last
+                        </PaginationButton>
+                    )}
+                </Pagination>
+            )}
         </NeighborhoodsContainer>
     );
 };
 
 export default Neighborhoods;
-
-
-
 
 // Styled components
 const NeighborhoodsContainer = styled.div`
@@ -131,7 +134,6 @@ const PaginationButton = styled.button`
         background-color: #0056b3;
     }
 `;
-
 
 const PageNumber = styled.span`
     padding: 10px;

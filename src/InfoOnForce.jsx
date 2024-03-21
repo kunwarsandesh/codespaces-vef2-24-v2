@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import SeniorOfficers from './SeniorOfficers';
 import CrimesWithNoLocation from './CrimesWithNoLocation';
-import Neighborhoods from '../Neighborhoods';
+import Neighborhoods from './Neighborhoods';
 
 
 
