@@ -3,50 +3,57 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const url = import.meta.env.VITE_APP_URL;
-
 const Forces = () => {
     const [forces, setForces] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredForces, setFilteredForces] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [forcesPerPage] = useState(10); // Adjust as needed
-    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' for ascending, 'desc' for descending
+    const [forcesPerPage] = useState(10);
+    const [sortOrder, setSortOrder] = useState('asc');
 
     useEffect(() => {
         getForces().catch(console.error);
     }, []);
 
+    useEffect(() => {
+        setFilteredForces(forces.filter(force => force.name.toLowerCase().includes(searchQuery.toLowerCase())));
+    }, [searchQuery, forces]);
+
     const getForces = async () => {
         const response = await fetch(`${url}/forces`);
         const data = await response.json();
+        data.sort((a, b) => a.name.localeCompare(b.name));
         setForces(data);
+        setFilteredForces(data);
     };
 
-    // Change page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    // Toggle sort order
     const toggleSortOrder = () => {
         const newOrder = sortOrder === 'asc' ? 'desc' : 'asc';
         setSortOrder(newOrder);
-        const sortedForces = [...forces].sort((a, b) => {
-            return newOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-        });
-        setForces(sortedForces);
+        const sortedForces = [...filteredForces].sort((a, b) => newOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+        setFilteredForces(sortedForces);
     };
 
-    // Get current forces
     const indexOfLastForce = currentPage * forcesPerPage;
     const indexOfFirstForce = indexOfLastForce - forcesPerPage;
-    const currentForces = forces.slice(indexOfFirstForce, indexOfLastForce);
+    const currentForces = filteredForces.slice(indexOfFirstForce, indexOfLastForce);
 
-    // Calculate total pages
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(forces.length / forcesPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filteredForces.length / forcesPerPage); i++) {
         pageNumbers.push(i);
     }
 
     return (
         <ForceWrapper>
             <Title>Forces</Title>
+            <SearchInput
+                type="text"
+                placeholder="Search forces..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+            />
             <button onClick={toggleSortOrder}>Toggle Sort Order</button>
             {currentForces.map(force => (
                 <ForceItem key={force.id}>
@@ -108,4 +115,11 @@ const PageItem = styled.span`
     &:hover {
         text-decoration: underline;
     }
+`;
+
+const SearchInput = styled.input`
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box; // Make sure padding doesn't affect the total width
 `;
