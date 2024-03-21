@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import SeniorOfficers from './SeniorOfficers';
 import CrimesWithNoLocation from './CrimesWithNoLocation';
+import Neighborhoods from '../Neighborhoods';
 
 
 
@@ -57,7 +58,8 @@ const InfoOnForce = () => {
             <br></br>
             <h3>Search Crimes with no Location</h3>
             <CrimesWithNoLocation forceId={force.id} />
-
+            <br></br>
+            <Neighborhoods forceId={force.id} forceName={force.name} />
         </InfoOnForceWrapper>
     );
 
