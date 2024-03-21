@@ -35,18 +35,20 @@ const Neighborhoods = ({ forceName, forceId }) => {
     const renderPageNumbers = () => {
         let pages = [];
         for (let i = 1; i <= totalPageNumbers; i++) {
-            pages.push(
-                <PageNumber
-                    key={i}
-                    onClick={() => setCurrentPage(i)}
-                    isActive={currentPage === i}
-                >
-                    {i}
-                </PageNumber>
-            );
+          pages.push(
+            <PageNumber
+              key={i}
+              onClick={() => setCurrentPage(i)}
+              data-isactive={currentPage === i}
+            >
+              {i}
+            </PageNumber>
+          );
         }
         return pages;
-    };
+      };
+    
+    
 
     return (
         <NeighborhoodsContainer key={currentPage}>
@@ -136,15 +138,17 @@ const PaginationButton = styled.button`
 `;
 
 const PageNumber = styled.span`
-    padding: 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: ${props => props.isActive ? '#007bff' : 'transparent'};
-    color: ${props => props.isActive ? 'white' : '#007bff'};
-    border-radius: 5px;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: ${props => props['data-isactive'] ? '#007bff' : 'transparent'};
+  color: ${props => props['data-isactive'] ? 'white' : '#007bff'};
+  border-radius: 5px;
 
-    &:hover {
-        background-color: ${props => props.isActive ? '#0056b3' : '#e2e6ea'};
-        color: ${props => props.isActive ? 'white' : '#007bff'};
-    }
+  &:hover {
+    background-color: ${props => props['data-isactive'] ? '#0056b3' : '#e2e6ea'};
+    color: ${props => props['data-isactive'] ? 'white' : '#007bff'};
+  }
 `;
+
+
