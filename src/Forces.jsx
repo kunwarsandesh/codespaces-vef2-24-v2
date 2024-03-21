@@ -19,16 +19,13 @@ const Forces = () => {
 
     return (
         <ForceWrapper>
-            <h1>Forces</h1>
+            <Title>Forces</Title>
             {forces.map(force => (
-                <div key={force.id}>
-                    <h2>
-                        {/* Use Link to pass force data to InfoOnForce component */}
-                        <Link to={`/forces/${force.id}`} state={{ force }}>
-                            {force.name}
-                        </Link>
-                    </h2>
-                </div>
+                <ForceItem key={force.id}>
+                    <StyledLink to={`/forces/${force.id}`} state={{ force }}>
+                        {force.name}
+                    </StyledLink>
+                </ForceItem>
             ))}
         </ForceWrapper>
     );
@@ -37,7 +34,28 @@ const Forces = () => {
 export default Forces;
 
 const ForceWrapper = styled.div`
-    h1 {
-        color: #333;
+    text-align: left;
+    margin: 20px;
+`;
+
+const Title = styled.h1`
+    color: #333;
+    text-align: center;
+`;
+
+const ForceItem = styled.div`
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    &:last-child {
+        border-bottom: none;
+    }
+`;
+
+const StyledLink = styled(Link)`
+    color: #007bff;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
     }
 `;
