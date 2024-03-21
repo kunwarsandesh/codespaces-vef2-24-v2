@@ -55,7 +55,9 @@ const CrimesWithNoLocation = ({ forceId }) => {
           type="month" 
           id="date" 
           value={date} 
-          onChange={(e) => setDate(e.target.value)}
+          placeholder='YYYY-MM'
+          onChange={(e) => setDate(e.target.value)
+        }
         />
         <label htmlFor="category">Category:</label>
         <select 
