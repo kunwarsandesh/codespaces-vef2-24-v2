@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-const API_url = import.meta.env.VITE_APP_URL;
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toastify css
 import Button from './FormComponents/Button';
 import Form from './FormComponents/Form';
 import Input from './FormComponents/Input';
 
+const API_url = import.meta.env.VITE_APP_URL;
+
+const categories = [
+  { url: 'all-crime', name: 'All crime' },
+  { url: 'anti-social-behaviour', name: 'Anti-social behaviour' },
+  { url: 'bicycle-theft', name: 'Bicycle theft' },
+  { url: 'burglary', name: 'Burglary' },
+  { url: 'criminal-damage-arson', name: 'Criminal damage and arson' },
+  { url: 'drugs', name: 'Drugs' },
+  { url: 'other-theft', name: 'Other theft' },
+  { url: 'possession-of-weapons', name: 'Possession of weapons' },
+  { url: 'public-order', name: 'Public order' },
+  { url: 'robbery', name: 'Robbery' },
+  { url: 'shoplifting', name: 'Shoplifting' },
+  { url: 'theft-from-the-person', name: 'Theft from the person' },
+  { url: 'vehicle-crime', name: 'Vehicle crime' },
+  { url: 'violent-crime', name: 'Violence and sexual offences' },
+  { url: 'other-crime', name: 'Other crime' },
+];
 
 const CrimesWithNoLocation = ({ forceId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
   const [date, setDate] = useState('');
   const [category, setCategory] = useState('all-crime');
   const [crimes, setCrimes] = useState(null);
@@ -18,27 +37,6 @@ const CrimesWithNoLocation = ({ forceId }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentCrimes = crimes ? crimes.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPageNumbers = crimes ? Math.ceil(crimes.length / itemsPerPage) : 0;
-
-
-  const categories = [
-    { url: 'all-crime', name: 'All crime' },
-    { url: 'anti-social-behaviour', name: 'Anti-social behaviour' },
-    { url: 'bicycle-theft', name: 'Bicycle theft' },
-    { url: 'burglary', name: 'Burglary' },
-    { url: 'criminal-damage-arson', name: 'Criminal damage and arson' },
-    { url: 'drugs', name: 'Drugs' },
-    { url: 'other-theft', name: 'Other theft' },
-    { url: 'possession-of-weapons', name: 'Possession of weapons' },
-    { url: 'public-order', name: 'Public order' },
-    { url: 'robbery', name: 'Robbery' },
-    { url: 'shoplifting', name: 'Shoplifting' },
-    { url: 'theft-from-the-person', name: 'Theft from the person' },
-    { url: 'vehicle-crime', name: 'Vehicle crime' },
-    { url: 'violent-crime', name: 'Violence and sexual offences' },
-    { url: 'other-crime', name: 'Other crime' },
-  ];
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,14 +48,18 @@ const CrimesWithNoLocation = ({ forceId }) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json(); // Directly parse the response as JSON
+      const data = await response.json();
+      if (!data || data.length === 0) {
+        toast.error("There is no data uploaded for this police station. We're sorry.");
+        setCrimes([]);
+        return;
+      }
       setCrimes(data);
     } catch (error) {
       console.error('Error fetching crimes with no location:', error);
+      toast.error("Error fetching data. Please try again.");
     }
   };
-
-
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -117,6 +119,8 @@ const CrimesWithNoLocation = ({ forceId }) => {
           <button onClick={() => setCurrentPage(totalPageNumbers)}>Last</button>
         )}
       </div>
+
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };
