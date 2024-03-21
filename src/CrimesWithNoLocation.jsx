@@ -103,20 +103,20 @@ const CrimesWithNoLocation = ({ forceId }) => {
 
       <div>
         {currentPage > 1 && (
-          <button onClick={() => setCurrentPage(1)}>First</button>
+          <PaginationButton onClick={() => setCurrentPage(1)}>First</PaginationButton>
         )}
         {currentPage > 1 && (
-          <button onClick={() => setCurrentPage(currentPage - 1)}>Prev</button>
+          <PaginationButton onClick={() => setCurrentPage(currentPage - 1)}>Prev</PaginationButton>
         )}
 
         {/* Display current page number and total pages, e.g., "Page 3 of 10" */}
         <span>Page {currentPage} of {totalPageNumbers}</span>
 
         {currentPage < totalPageNumbers && (
-          <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+          <PaginationButton onClick={() => setCurrentPage(currentPage + 1)}>Next</PaginationButton>
         )}
         {currentPage < totalPageNumbers && (
-          <button onClick={() => setCurrentPage(totalPageNumbers)}>Last</button>
+          <PaginationButton onClick={() => setCurrentPage(totalPageNumbers)}>Last</PaginationButton>
         )}
       </div>
 
@@ -159,5 +159,28 @@ const CrimeHeader = styled.h3`
 const CrimeDetail = styled.p`
   margin: 5px 0;
 `;
+
+
+
+const PaginationButton = styled.button`
+    padding: 10px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+        background-color: #0056b3;
+    }
+`;
+
+
 
 export default CrimesWithNoLocation;
