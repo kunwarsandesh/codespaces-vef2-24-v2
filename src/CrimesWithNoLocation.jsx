@@ -7,89 +7,88 @@ import Input from './FormComponents/Input';
 
 
 const CrimesWithNoLocation = ({ forceId }) => {
-    const [date, setDate] = useState('');
-    const [category, setCategory] = useState('all-crime');
-    const [crimes, setCrimes] = useState(null);
+  const [date, setDate] = useState('');
+  const [category, setCategory] = useState('all-crime');
+  const [crimes, setCrimes] = useState(null);
 
-    const categories = [
-        { url: 'all-crime', name: 'All crime' },
-        { url: 'anti-social-behaviour', name: 'Anti-social behaviour' },
-        { url: 'bicycle-theft', name: 'Bicycle theft' },
-        { url: 'burglary', name: 'Burglary' },
-        { url: 'criminal-damage-arson', name: 'Criminal damage and arson' },
-        { url: 'drugs', name: 'Drugs' },
-        { url: 'other-theft', name: 'Other theft' },
-        { url: 'possession-of-weapons', name: 'Possession of weapons' },
-        { url: 'public-order', name: 'Public order' },
-        { url: 'robbery', name: 'Robbery' },
-        { url: 'shoplifting', name: 'Shoplifting' },
-        { url: 'theft-from-the-person', name: 'Theft from the person' },
-        { url: 'vehicle-crime', name: 'Vehicle crime' },
-        { url: 'violent-crime', name: 'Violence and sexual offences' },
-        { url: 'other-crime', name: 'Other crime' },
-    ];
-
-
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        let url = `${API_url}/crimes-no-location?category=${category}&force=${forceId}`;
-        if (date) url += `&date=${date}`;
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json(); // Directly parse the response as JSON
-            setCrimes(data);
-        } catch (error) {
-            console.error('Error fetching crimes with no location:', error);
-        }
-    };
+  const categories = [
+    { url: 'all-crime', name: 'All crime' },
+    { url: 'anti-social-behaviour', name: 'Anti-social behaviour' },
+    { url: 'bicycle-theft', name: 'Bicycle theft' },
+    { url: 'burglary', name: 'Burglary' },
+    { url: 'criminal-damage-arson', name: 'Criminal damage and arson' },
+    { url: 'drugs', name: 'Drugs' },
+    { url: 'other-theft', name: 'Other theft' },
+    { url: 'possession-of-weapons', name: 'Possession of weapons' },
+    { url: 'public-order', name: 'Public order' },
+    { url: 'robbery', name: 'Robbery' },
+    { url: 'shoplifting', name: 'Shoplifting' },
+    { url: 'theft-from-the-person', name: 'Theft from the person' },
+    { url: 'vehicle-crime', name: 'Vehicle crime' },
+    { url: 'violent-crime', name: 'Violence and sexual offences' },
+    { url: 'other-crime', name: 'Other crime' },
+  ];
 
 
-    return (
-        <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="date">Date (optional):</label>
-        <input 
-          type="month" 
-          id="date" 
-          value={date} 
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let url = `${API_url}/crimes-no-location?category=${category}&force=${forceId}`;
+    if (date) url += `&date=${date}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json(); // Directly parse the response as JSON
+      setCrimes(data);
+    } catch (error) {
+      console.error('Error fetching crimes with no location:', error);
+    }
+  };
+
+
+  return (
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Label htmlFor="date">Date (optional):</Label>
+        <Input
+          type="month"
+          id="date"
+          value={date}
           placeholder='YYYY-MM'
-          onChange={(e) => setDate(e.target.value)
-        }
+          onChange={(e) => setDate(e.target.value)}
         />
-        <label htmlFor="category">Category:</label>
-        <select 
-          id="category" 
-          value={category} 
+        <Label htmlFor="category">Category:</Label>
+        <Select
+          id="category"
+          value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
           {categories.map((cat) => (
             <option key={cat.url} value={cat.url}>{cat.name}</option>
           ))}
-        </select>
-        <Button   text="Fetch Crimes"
-  backgroundColor="#FF6347"
-  color="#FFF"
-  hoverBackgroundColor="#FF4500" type="submit">Fetch Crimes</Button>
-      </form>
-            {crimes && (
-                <ul>
-                    {crimes.map((crime, index) => (
-                        <li key={index}>
-                            <h3>Crime ID: {crime.id}</h3>
-                            <p>Category: {crime.category}</p>
-                            <p>Outcome: {crime.outcome_status?.category || 'N/A'}</p>
-                            <p>Date of Outcome: {crime.outcome_status?.date || 'N/A'}</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+        </Select>
+        <Button text="Fetch Crimes"
+          backgroundColor="#FF6347"
+          color="#FFF"
+          hoverBackgroundColor="#FF4500" type="submit">Fetch Crimes</Button>
+      </Form>
+      {crimes && (
+        <ul>
+          {crimes.map((crime, index) => (
+            <li key={index}>
+              <h3>Crime ID: {crime.id}</h3>
+              <p>Category: {crime.category}</p>
+              <p>Outcome: {crime.outcome_status?.category || 'N/A'}</p>
+              <p>Date of Outcome: {crime.outcome_status?.date || 'N/A'}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 
