@@ -7,9 +7,18 @@ import Input from './FormComponents/Input';
 
 
 const CrimesWithNoLocation = ({ forceId }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   const [date, setDate] = useState('');
   const [category, setCategory] = useState('all-crime');
   const [crimes, setCrimes] = useState(null);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCrimes = crimes ? crimes.slice(indexOfFirstItem, indexOfLastItem) : [];
+  const totalPageNumbers = crimes ? Math.ceil(crimes.length / itemsPerPage) : 0;
+
 
   const categories = [
     { url: 'all-crime', name: 'All crime' },
@@ -74,18 +83,40 @@ const CrimesWithNoLocation = ({ forceId }) => {
           color="#FFF"
           type="submit">Fetch Crimes</Button>
       </Form>
-      {crimes && (
-        <ul>
-          {crimes.map((crime, index) => (
-            <li key={index}>
-              <h3>Crime ID: {crime.id}</h3>
-              <p>Category: {crime.category}</p>
-              <p>Outcome: {crime.outcome_status?.category || 'N/A'}</p>
-              <p>Date of Outcome: {crime.outcome_status?.date || 'N/A'}</p>
-            </li>
+      {crimes && crimes.length > 0 ? (
+        <CrimeList>
+          {currentCrimes.map((crime, index) => (
+            <CrimeItem key={index}>
+              <CrimeHeader>Crime ID: {crime.id}</CrimeHeader>
+              <CrimeDetail>Category: {crime.category}</CrimeDetail>
+              <CrimeDetail>Outcome: {crime.outcome_status?.category || 'N/A'}</CrimeDetail>
+              <CrimeDetail>Date of Outcome: {crime.outcome_status?.date || 'N/A'}</CrimeDetail>
+            </CrimeItem>
           ))}
-        </ul>
+        </CrimeList>
+      ) : (
+        <p>No crimes to display.</p>
       )}
+
+
+      <div>
+        {currentPage > 1 && (
+          <button onClick={() => setCurrentPage(1)}>First</button>
+        )}
+        {currentPage > 1 && (
+          <button onClick={() => setCurrentPage(currentPage - 1)}>Prev</button>
+        )}
+
+        {/* Display current page number and total pages, e.g., "Page 3 of 10" */}
+        <span>Page {currentPage} of {totalPageNumbers}</span>
+
+        {currentPage < totalPageNumbers && (
+          <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+        )}
+        {currentPage < totalPageNumbers && (
+          <button onClick={() => setCurrentPage(totalPageNumbers)}>Last</button>
+        )}
+      </div>
     </div>
   );
 };
