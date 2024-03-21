@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Button from './FormComponents/Button';
 
 const url = import.meta.env.VITE_APP_URL;
 const Forces = () => {
@@ -54,7 +55,10 @@ const Forces = () => {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
             />
-            <button onClick={toggleSortOrder}>Toggle Sort Order</button>
+            <Button   text="Toggle Sort Order ↕️"
+  backgroundColor="#FF6347"
+  color="#FFF"
+  hoverBackgroundColor="#FF4500" onClick={toggleSortOrder}>Toggle Sort Order</Button>
             {currentForces.map(force => (
                 <ForceItem key={force.id}>
                     <StyledLink to={`/forces/${force.id}`} state={{ force }}>

@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Forces from './Forces';
 import InfoOnForce from './InfoOnForce';
 import styled from 'styled-components';
-import SeniorOfficers from './SeniorOfficers';
+import Header from './Layout/Header';
+import Footer from './Layout/Footer';
 
 
 const AppContainer = styled.div`
@@ -13,12 +14,7 @@ const AppContainer = styled.div`
   padding: 20px;
 `;
 
-const Header = styled.header`
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  font-size: 1.5em;
-`;
+
 
 const MainContent = styled.main`
   margin-top: 20px;
@@ -28,7 +24,8 @@ function App() {
   return (
     <Router>
       <AppContainer>
-        <Header>UK POLICE INFO</Header>
+        <Header>
+        </Header>
         <MainContent>
           <Routes>
             <Route path="/" element={<Forces />} />
@@ -36,6 +33,8 @@ function App() {
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </MainContent>
+        <Footer>
+        </Footer>
       </AppContainer>
     </Router>
   );

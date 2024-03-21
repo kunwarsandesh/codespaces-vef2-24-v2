@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 const API_url = import.meta.env.VITE_APP_URL;
-
+import Button from './FormComponents/Button';
 
 
 const CrimesWithNoLocation = ({ forceId }) => {
@@ -69,7 +69,10 @@ const CrimesWithNoLocation = ({ forceId }) => {
             <option key={cat.url} value={cat.url}>{cat.name}</option>
           ))}
         </select>
-        <button type="submit">Fetch Crimes</button>
+        <Button   text="Fetch Crimes"
+  backgroundColor="#FF6347"
+  color="#FFF"
+  hoverBackgroundColor="#FF4500" type="submit">Fetch Crimes</Button>
       </form>
             {crimes && (
                 <ul>
@@ -109,17 +112,7 @@ const Select = styled.select`
   padding: 5px;
 `;
 
-const Button = styled.button`
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
+
 
 const CrimeList = styled.ul`
   list-style-type: none;

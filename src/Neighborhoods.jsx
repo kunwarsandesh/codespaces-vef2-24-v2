@@ -26,7 +26,7 @@ const Neighborhoods = ({ forceName, forceId }) => {
 
     return (
         <NeighborhoodsContainer>
-            <h1>{forceName} looks after these listed neighborhoods:</h1>
+            <h1>{forceName} looks after these listed Neighbourhoods.</h1>
             <NeighborhoodsList>
                 {neighborhoods.map((neighborhood, index) => (
                     <NeighborhoodItem key={index}>
