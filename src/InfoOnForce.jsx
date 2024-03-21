@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import SeniorOfficers from './SeniorOfficers';
+import CrimesWithNoLocation from './CrimesWithNoLocation';
 
 
 
@@ -11,7 +12,7 @@ const url = import.meta.env.VITE_APP_URL;
 const InfoOnForce = () => {
     const [infoForce, setInfo] = useState(null);
     const location = useLocation();
-    const { force } = location.state;
+    const force = location.state?.force;
 
     useEffect(() => {
         const getInfoOnForce = async () => {
@@ -30,6 +31,7 @@ const InfoOnForce = () => {
     return (
         <InfoOnForceWrapper>
             <ForceName>{force.name}</ForceName>
+            <br />
             {infoForce && (
                 <ForceDetails>
                     <ForceDetail>ID: {infoForce.id}</ForceDetail>
@@ -45,9 +47,17 @@ const InfoOnForce = () => {
                                 </EngagementItem>
                             ))}
                     </EngagementList>
+
                 </ForceDetails>
+
             )}
+            <br></br>
             <SeniorOfficers forceId={force.id} />
+
+            <br></br>
+            <h3>Search Crimes with no Location</h3>
+            <CrimesWithNoLocation forceId={force.id} />
+
         </InfoOnForceWrapper>
     );
 

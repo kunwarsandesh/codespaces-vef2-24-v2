@@ -8,7 +8,6 @@ const SeniorOfficers = ({ forceId }) => {
   useEffect(() => {
     const fetchSeniorOfficers = async () => {
       try {
-        // Use the `forceId` prop to construct the URL
         const response = await fetch(`https://data.police.uk/api/forces/${forceId}/people`);
         const data = await response.json();
         setOfficers(data);
@@ -27,9 +26,9 @@ const SeniorOfficers = ({ forceId }) => {
   if (loading) {
     return <p>Loading senior officers...</p>;
   }
-
   return (
     <OfficersList>
+      {officers.length > 0 && <h2>Senior Officers</h2>}
       {officers.map((officer, index) => (
         <OfficerItem key={index}>
           <OfficerName>{officer.name}, {officer.rank}</OfficerName>
@@ -39,7 +38,7 @@ const SeniorOfficers = ({ forceId }) => {
       ))}
     </OfficersList>
   );
-};
+};  
 
 export default SeniorOfficers;
 
