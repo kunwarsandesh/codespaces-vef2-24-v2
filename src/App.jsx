@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Forces from './Forces';
 import InfoOnForce from './InfoOnForce';
 import styled from 'styled-components';
+import SeniorOfficers from './SeniorOfficers';
 
 
 const AppContainer = styled.div`
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Forces />} />
             <Route path="/forces/:id" element={<InfoOnForce />} />
+            <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </MainContent>
       </AppContainer>

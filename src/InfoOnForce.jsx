@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import SeniorOfficers from './SeniorOfficers';
+
+
+
 
 const url = import.meta.env.VITE_APP_URL;
 
@@ -33,16 +37,24 @@ const InfoOnForce = () => {
                     <ForceDetail>Telephone: {infoForce.telephone}</ForceDetail>
                     <EngagementTitle>Engagement Methods</EngagementTitle>
                     <EngagementList>
-                        {infoForce.engagement_methods.map((method, index) => (
-                            <EngagementItem key={index}>
-                                <strong>{method.title}:</strong> <ForceLink href={method.url}>{method.url}</ForceLink>
-                            </EngagementItem>
-                        ))}
+                        {infoForce.engagement_methods
+                            .filter(method => method.type !== 'telephone')
+                            .map((method, index) => (
+                                <EngagementItem key={index}>
+                                    <strong>{method.title}:</strong> <ForceLink href={method.url}>{method.url}</ForceLink>
+                                </EngagementItem>
+                            ))}
                     </EngagementList>
                 </ForceDetails>
             )}
+            <SeniorOfficers forceId={force.id} />
         </InfoOnForceWrapper>
     );
+
+
+
+
+
 };
 
 const InfoOnForceWrapper = styled.div`
